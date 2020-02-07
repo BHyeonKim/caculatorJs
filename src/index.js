@@ -19,12 +19,17 @@ const subtractionBtn = document.querySelector(".js-btnSubtraction");
 const multiplicationBtn = document.querySelector(".js-btnMultiplication");
 const devisionBtn = document.querySelector(".js-btnDevision");
 
-let operand = 0;
+let result = null;
 let operator = null;
+let formula = [];
 
 function oneBtnHandler(event) {
   const value = oneBtn.innerText;
-  if (operator !== null) {
+  if (operator === "＋") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
+  if (operator === "－") {
     operator = null;
     resultBar.innerHTML = "";
   }
@@ -36,7 +41,11 @@ function oneBtnHandler(event) {
 }
 function twoBtnHandler(event) {
   const value = twoBtn.innerText;
-  if (operator !== null) {
+  if (operator === "＋") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
+  if (operator === "－") {
     operator = null;
     resultBar.innerHTML = "";
   }
@@ -48,6 +57,14 @@ function twoBtnHandler(event) {
 }
 function threeBtnHandler(event) {
   const value = threeBtn.innerText;
+  if (operator === "＋") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
+  if (operator === "－") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
   if (resultBar.innerHTML === "0") {
     resultBar.innerHTML = value;
   } else {
@@ -56,6 +73,14 @@ function threeBtnHandler(event) {
 }
 function fourBtnHandler(event) {
   const value = fourBtn.innerText;
+  if (operator === "＋") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
+  if (operator === "－") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
   if (resultBar.innerHTML === "0") {
     resultBar.innerHTML = value;
   } else {
@@ -64,6 +89,14 @@ function fourBtnHandler(event) {
 }
 function fiveBtnHandler(event) {
   const value = fiveBtn.innerText;
+  if (operator === "＋") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
+  if (operator === "－") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
   if (resultBar.innerHTML === "0") {
     resultBar.innerHTML = value;
   } else {
@@ -72,6 +105,14 @@ function fiveBtnHandler(event) {
 }
 function sixBtnHandler(event) {
   const value = sixBtn.innerText;
+  if (operator === "＋") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
+  if (operator === "－") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
   if (resultBar.innerHTML === "0") {
     resultBar.innerHTML = value;
   } else {
@@ -80,6 +121,14 @@ function sixBtnHandler(event) {
 }
 function sevenBtnHandler(event) {
   const value = sevenBtn.innerText;
+  if (operator === "＋") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
+  if (operator === "－") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
   if (resultBar.innerHTML === "0") {
     resultBar.innerHTML = value;
   } else {
@@ -88,6 +137,14 @@ function sevenBtnHandler(event) {
 }
 function eightBtnHandler(event) {
   const value = eightBtn.innerText;
+  if (operator === "＋") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
+  if (operator === "－") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
   if (resultBar.innerHTML === "0") {
     resultBar.innerHTML = value;
   } else {
@@ -96,6 +153,14 @@ function eightBtnHandler(event) {
 }
 function nineBtnHandler(event) {
   const value = nineBtn.innerText;
+  if (operator === "＋") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
+  if (operator === "－") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
   if (resultBar.innerHTML === "0") {
     resultBar.innerHTML = value;
   } else {
@@ -104,52 +169,71 @@ function nineBtnHandler(event) {
 }
 function zeroBtnHandler(event) {
   const value = zeroBtn.innerText;
+  if (operator === "＋") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
+  if (operator === "－") {
+    operator = null;
+    resultBar.innerHTML = "";
+  }
   if (resultBar.innerHTML === "0") {
     resultBar.innerHTML = value;
   } else {
     resultBar.append(value);
   }
 }
-function equalBtnHandler(event) {
-  if (operator === "＋") {
-    operand += parseInt(resultBar.innerHTML, 10);
+
+function calculateFormula() {
+  console.log(formula);
+  for (let i = 0; i < formula.length; i++) {
+    if (formula[i] === "＋") {
+      result = formula[i - 1] + formula[i + 1];
+      formula[i] = result;
+      formula.splice(i + 1, 1);
+      formula.splice(i - 1, 1);
+      result = 0;
+    }
   }
-  resultBar.innerHTML = operand;
-  operator = null;
+}
+
+function equalBtnHandler(event) {
+  formula.push(parseInt(resultBar.innerHTML, 10));
+  calculateFormula();
+}
+
+function removeAllElementfromList() {
+  while (formula.length !== 0) {
+    formula.pop();
+  }
 }
 function clearBtnHandler(event) {
-  operand = 0;
   resultBar.innerHTML = "0";
   operator = null;
+  removeAllElementfromList();
 }
 function sumBtnHandler(event) {
-  operand += parseInt(resultBar.innerHTML, 10);
-  console.log(operand);
-  operator = sumBtn.innerHTML;
+  operator = "＋";
+  formula.push(parseInt(resultBar.innerHTML, 10));
+  formula.push("＋");
 }
 function subtractionBtnHandler(event) {
-  const value = subtractionBtn.innerText;
-  if (resultBar.innerHTML === "0") {
-    resultBar.innerHTML = value;
-  } else {
-    resultBar.append(value);
-  }
+  operator = "－";
+  formula.push(parseInt(resultBar.innerHTML, 10));
+  formula.push("－");
+  console.log(formula);
 }
 function multiplicationBtnHandler(event) {
-  const value = multiplicationBtn.innerText;
-  if (resultBar.innerHTML === "0") {
-    resultBar.innerHTML = value;
-  } else {
-    resultBar.append(value);
-  }
+  operator = "×";
+  formula.push(parseInt(resultBar.innerHTML, 10));
+  formula.push("×");
+  console.log(formula);
 }
 function devisionBtnHandler(event) {
-  const value = devisionBtn.innerText;
-  if (resultBar.innerHTML === "0") {
-    resultBar.innerHTML = value;
-  } else {
-    resultBar.append(value);
-  }
+  operator = "÷";
+  formula.push(parseInt(resultBar.innerHTML, 10));
+  formula.push("÷");
+  console.log(formula);
 }
 
 oneBtn.addEventListener("click", oneBtnHandler);
